@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # init pygame
 pygame.init()
@@ -38,6 +39,9 @@ d_height = 48
 d_x = screen_width - d_width - padding
 d_y = screen_height - padding - d_height
 dice = (d_x, d_y, d_width, d_height)
+font = pygame.font.SysFont("Raleway", 20)
+text = font.render("Throw Dice", True, white, None)
+text_rect = text.get_rect(center=(d_x + d_width/2, d_y + d_height/2))
 
 # track init
 t_width = 50
@@ -94,9 +98,49 @@ def track():
     t = (tx,ty,t_width,t_height)
     pygame.draw.rect(screen,blueGrey900,t)
 
+
 # draw dice
 def dice_button(color):
     pygame.draw.rect(screen, color, dice)
+
+
+# dice helper
+def helper_label(msg):
+    font = pygame.font.SysFont("Raleway", 32)
+    text = font.render(msg, True, white, blueGrey300)
+    label_width = text.get_width()
+    label_height = text.get_height()
+    pos_x = screen_width - label_width/2 - padding
+    pos_y = d_y - label_height/2 - 12
+    text_rect = text.get_rect(center=(pos_x, pos_y))
+    screen.blit(text, text_rect)
+
+
+# dice result
+def dice_result(msg,firstroll):
+    m = ""
+    label_height = 0
+    if firstroll:
+        m = "You have not yet Rolled"
+    else:
+        m = "You have Rolled"
+        bigfont = pygame.font.SysFont("Raleway", 256)
+        text = bigfont.render(msg, True, white, blueGrey300)
+        label_width = text.get_width()
+        label_height = text.get_height()
+        pos_x = screen_width - label_width / 2 - 2 * padding
+        pos_y = screen_height / 2
+        text_rect = text.get_rect(center=(pos_x, pos_y))
+        screen.blit(text, text_rect)
+
+    font = pygame.font.SysFont("Raleway", 32)
+    t = font.render(m, True, white, blueGrey300)
+    tw = t.get_width()
+    p_x = screen_width - tw/2 - padding
+    p_y = screen_height / 2 - label_height/2 - 20
+    t_rect = t.get_rect(center=(p_x, p_y))
+    screen.blit(t, t_rect)
+
 
 # Game Loop
 mainLoop = True
@@ -106,13 +150,26 @@ while mainLoop:
             mainLoop = False
 
     mouse = pygame.mouse.get_pos()
+
+    # dice button
     if ((d_x + d_width) > mouse[0] > d_x) and (d_y < mouse[1] < d_y + d_height) :
         dice_button(blueGrey700d)
     else:
         dice_button(blueGrey700)
 
+    #show dice result
+    dice_result("5",False)
+
+    # Shows whose turn it is
+    helper_label("PLAYER 1 TURN")
+
+    # dice button text
+    screen.blit(text, text_rect)
+    #track
     track()
+    #player1
     player(p1)
+    #player2
     player2(p2)
     pygame.display.update()
 
