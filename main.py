@@ -7,13 +7,13 @@ pygame.init()
 # color init
 black = (0, 0, 0)
 white = (255, 255, 255)
+blueGrey100 = (236, 239, 241)
 blueGrey300 = (144, 164, 174)
 blueGrey900 = (38, 50, 56)
 blueGrey700d = (28, 49, 58)#1c313a
 blueGrey700 = (69, 90, 100)#455a64
 grey900 = (33, 33, 33)
 teal900 = (0, 77, 64)
-blueGrey100 = (236, 239, 241)
 red200 = (255, 171, 145)
 red900 = (135, 0, 0)
 
@@ -25,7 +25,7 @@ controller_width = 450
 
 # making window
 screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption("Racing Game")
+pygame.display.set_caption("Game of Life")
 icon = pygame.image.load("running_blue.png")
 pygame.display.set_icon(icon)
 screen.fill(blueGrey100)
@@ -47,8 +47,8 @@ px1 = (screen_width/2) - imgWidth - 100 - controller_width/2
 px2 = (screen_width/2) + 100 - controller_width /2
 p1 = 0
 p2 = 0
-playerImg = pygame.image.load("ca.png")
-player2Img = pygame.image.load("ironman.png")
+playerImg = pygame.image.load("ironman.png")
+player2Img = pygame.image.load("ca.png")
 
 
 # dice init
@@ -81,7 +81,7 @@ stepSize = t_height / step
 # Game Label
 def game_label():
     font = pygame.font.SysFont("Raleway", 128)
-    text = font.render("Racing Game", True, blueGrey700, blueGrey100)
+    text = font.render("Game of Life", True, blueGrey700, blueGrey100)
     text_rect = text.get_rect(center=(screen_width / 2, screen_height / 2))
     screen.blit(text, text_rect)
 
@@ -110,7 +110,7 @@ def quit_button(color, font_color=white):
 def player(pos):
     py1 = t_height + padding - (imgHeight / 2) - pos * stepSize
     font = pygame.font.SysFont("Raleway", 25)
-    h = " " + str(pos) + " "
+    h = " " + str(round(pos,1)) + " "
     text = font.render(h,True,blueGrey900, blueGrey100)
     tw = text.get_width()
     tx = px1 - tw / 2 - 8
@@ -126,7 +126,7 @@ def player(pos):
 def player2(pos):
     py2 = t_height + padding - (imgHeight / 2) - pos * stepSize
     font = pygame.font.SysFont("Raleway", 25)
-    h = " " + str(pos) + " "
+    h = " " + str(round(pos,1)) + " "
     text = font.render(h, True, blueGrey900, blueGrey100)
     tw = text.get_width()
     tx = px2 + imgWidth + tw / 2 + 8
